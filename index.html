@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генотерапія та її перспективи</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 80px;
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: all;
+        }
+
+        .slide.exit {
+            opacity: 0;
+            transform: translateX(-60px);
+        }
+
+        /* Slide 1 — Title */
+        .slide-1 {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide-1 .dna-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 30%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 60% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+        }
+
+        .slide-1 .tag {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #a5b4fc;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .slide-1 h1 {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            position: relative;
+            background: linear-gradient(135deg, #fff 0%, #c7d2fe 50%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-1 .subtitle {
+            font-size: 22px;
+            color: rgba(255,255,255,0.6);
+            font-weight: 300;
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .slide-1 .author {
+            font-size: 16px;
+            color: rgba(255,255,255,0.4);
+            position: relative;
+            font-weight: 400;
+        }
+
+        /* Slide 2 — What is Gene Therapy */
+        .slide-2 {
+            background: linear-gradient(160deg, #0c1220 0%, #1a1a2e 50%, #16213e 100%);
+        }
+
+        .slide-2 .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            height: 100%;
+        }
+
+        .slide-2 h2 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #e0e7ff;
+        }
+
+        .slide-2 .accent {
+            color: #818cf8;
+        }
+
+        .slide-2 p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 16px;
+        }
+
+        .slide-2 .definition-box {
+            background: rgba(99, 102, 241, 0.08);
+            border-left: 4px solid #6366f1;
+            padding: 24px 28px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 24px;
+        }
+
+        .slide-2 .definition-box p {
+            font-size: 17px;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 0;
+        }
+
+        .slide-2 .methods-list {
+            list-style: none;
+        }
+
+        .slide-2 .methods-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 18px;
+            font-size: 16px;
+            color: rgba(255,255,255,0.75);
+        }
+
+        .slide-2 .methods-list .icon {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .method-viral .icon { background: rgba(239, 68, 68, 0.15); }
+        .method-nonviral .icon { background: rgba(34, 197, 94, 0.15); }
+        .method-crispr .icon { background: rgba(59, 130, 246, 0.15); }
+
+        /* Slide 3 — Types */
+        .slide-3 {
+            background: linear-gradient(160deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+        }
+
+        .slide-3 h2 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #e0e7ff;
+        }
+
+        .types-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .type-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 32px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .type-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .type-card .card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 18px;
+        }
+
+        .type-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #e0e7ff;
+        }
+
+        .type-card p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .card-somatic .card-icon { background: rgba(99, 102, 241, 0.15); }
+        .card-germline .card-icon { background: rgba(168, 85, 247, 0.15); }
+        .card-invivo .card-icon { background: rgba(34, 197, 94, 0.15); }
+        .card-exvivo .card-icon { background: rgba(251, 191, 36, 0.15); }
+
+        /* Slide 4 — Achievements */
+        .slide-4 {
+            background: linear-gradient(160deg, #0c1220 0%, #172554 40%, #1e1b4b 100%);
+        }
+
+        .slide-4 h2 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 36px;
+            color: #e0e7ff;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 900px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        .timeline-year {
+            min-width: 80px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #818cf8;
+            padding-top: 4px;
+        }
+
+        .timeline-dot {
+            width: 14px;
+            height: 14px;
+            min-width: 14px;
+            border-radius: 50%;
+            background: #6366f1;
+            margin-top: 8px;
+            position: relative;
+        }
+
+        .timeline-dot::after {
+            content: '';
+            position: absolute;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .timeline-item:last-child .timeline-dot::after {
+            display: none;
+        }
+
+        .timeline-content h4 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #e0e7ff;
+            margin-bottom: 4px;
+        }
+
+        .timeline-content p {
+            font-size: 15px;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.5;
+        }
+
+        /* Slide 5 — Prospects & Conclusion */
+        .slide-5 {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        }
+
+        .slide-5 .content-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .slide-5 h2 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: #e0e7ff;
+            grid-column: 1 / -1;
+        }
+
+        .prospect-list {
+            list-style: none;
+        }
+
+        .prospect-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .prospect-list .check {
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            border-radius: 8px;
+            background: rgba(34, 197, 94, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #22c55e;
+            font-size: 14px;
+            margin-top: 2px;
+        }
+
+        .prospect-list .text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.75);
+        }
+
+        .prospect-list .text strong {
+            color: #e0e7ff;
+            font-weight: 600;
+        }
+
+        .challenges-box {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            border-radius: 16px;
+            padding: 28px;
+        }
+
+        .challenges-box h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fca5a5;
+            margin-bottom: 16px;
+        }
+
+        .challenges-box ul {
+            list-style: none;
+        }
+
+        .challenges-box li {
+            font-size: 15px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .challenges-box li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: rgba(239, 68, 68, 0.5);
+        }
+
+        .conclusion-box {
+            grid-column: 1 / -1;
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 24px 32px;
+            margin-top: 10px;
+        }
+
+        .conclusion-box p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .nav button {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav button:hover {
+            background: rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 38px;
+            left: 40px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.3);
+            font-weight: 500;
+            z-index: 100;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #a78bfa);
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+        }
+
+        @media print {
+            .slide {
+                position: relative !important;
+                opacity: 1 !important;
+                transform: none !important;
+                pointer-events: all !important;
+                page-break-after: always;
+                height: 100vh;
+            }
+            .nav, .slide-counter, .progress-bar { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <div class="progress-bar" id="progress"></div>
+
+        <!-- SLIDE 1: Title -->
+        <div class="slide slide-1 active" data-slide="1">
+            <div class="dna-bg"></div>
+            <span class="tag">Проєкт з біології</span>
+            <h1>Генотерапія<br>та її перспективи</h1>
+            <p class="subtitle">Сучасні підходи до лікування генетичних захворювань</p>
+            <p class="author">Підготував(ла): _______________</p>
+        </div>
+
+        <!-- SLIDE 2: What is Gene Therapy -->
+        <div class="slide slide-2" data-slide="2">
+            <div class="content-grid">
+                <div>
+                    <h2>Що таке <span class="accent">генотерапія</span>?</h2>
+                    <div class="definition-box">
+                        <p><strong>Генна терапія</strong> — це сукупність методів лікування, що базуються на введенні, зміні або видаленні генетичного матеріалу в клітинах пацієнта для лікування або профілактики захворювань.</p>
+                    </div>
+                    <p>Ідея виникла у 1970-х роках, а перше клінічне випробування відбулося у <strong>1990 році</strong> в США — для лікування тяжкого комбінованого імунодефіциту (SCID).</p>
+                </div>
+                <div>
+                    <h2 style="font-size:24px; margin-bottom:20px;">Основні методи доставки генів</h2>
+                    <ul class="methods-list">
+                        <li class="method-viral">
+                            <span class="icon">🦠</span>
+                            <span><strong>Вірусні вектори</strong> — модифіковані віруси (аденовіруси, ретровіруси, AAV), які доставляють терапевтичний ген у клітину</span>
+                        </li>
+                        <li class="method-nonviral">
+                            <span class="icon">💉</span>
+                            <span><strong>Невірусні методи</strong> — ліпосоми, наночастинки, електропорація — безпечніші, але менш ефективні</span>
+                        </li>
+                        <li class="method-crispr">
+                            <span class="icon">✂️</span>
+                            <span><strong>CRISPR-Cas9</strong> — революційна технологія «молекулярних ножиць» для точного редагування геному (Нобелівська премія 2020)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Types -->
+        <div class="slide slide-3" data-slide="3">
+            <h2>Типи генної терапії</h2>
+            <div class="types-container">
+                <div class="type-card card-somatic">
+                    <div class="card-icon">🧬</div>
+                    <h3>Соматична генотерапія</h3>
+                    <p>Зміни вносяться у соматичні клітини пацієнта. Ефект не передається нащадкам. Це єдиний дозволений вид генотерапії у клінічній практиці.</p>
+                </div>
+                <div class="type-card card-germline">
+                    <div class="card-icon">🔬</div>
+                    <h3>Зародкова генотерапія</h3>
+                    <p>Зміни вносяться у статеві або ембріональні клітини та передаються наступним поколінням. Заборонена в більшості країн через етичні ризики.</p>
+                </div>
+                <div class="type-card card-invivo">
+                    <div class="card-icon">💚</div>
+                    <h3>In vivo (в організмі)</h3>
+                    <p>Генетичний матеріал вводиться безпосередньо в тіло пацієнта — через ін'єкцію чи інгаляцію. Простіший підхід, але складніший контроль.</p>
+                </div>
+                <div class="type-card card-exvivo">
+                    <div class="card-icon">🧪</div>
+                    <h3>Ex vivo (поза організмом)</h3>
+                    <p>Клітини вилучаються з організму, модифікуються в лабораторії, а потім повертаються пацієнту. Більш контрольований метод.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Achievements -->
+        <div class="slide slide-4" data-slide="4">
+            <h2>Досягнення генотерапії</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-year">1990</span>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Перше клінічне випробування</h4>
+                        <p>Лікування ADA-SCID (вродженого імунодефіциту) у 4-річної Ашанті Де Сільва, США</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">2012</span>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Glybera — перший препарат генотерапії в ЄС</h4>
+                        <p>Схвалений для лікування дефіциту ліпопротеїнліпази (рідкісне спадкове захворювання)</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">2017</span>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Luxturna — терапія сліпоти</h4>
+                        <p>Перший генотерапевтичний препарат для лікування спадкової дистрофії сітківки ока</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">2019</span>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Zolgensma — найдорожчий лік у світі</h4>
+                        <p>Одноразова ін'єкція ($2.1 млн) для лікування спінальної м'язової атрофії (СМА) у дітей</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">2023</span>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Casgevy — перший CRISPR-препарат</h4>
+                        <p>Схвалений у Великій Британії та США для лікування серпоподібноклітинної анемії та β-таласемії</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Prospects & Conclusion -->
+        <div class="slide slide-5" data-slide="5">
+            <div class="content-split">
+                <h2>Перспективи та виклики</h2>
+                <div>
+                    <ul class="prospect-list">
+                        <li>
+                            <span class="check">✓</span>
+                            <span class="text"><strong>Лікування раку</strong> — CAR-T терапія модифікує імунні клітини для знищення пухлин</span>
+                        </li>
+                        <li>
+                            <span class="check">✓</span>
+                            <span class="text"><strong>Рідкісні хвороби</strong> — понад 7000 генетичних захворювань потенційно можуть бути вилікувані</span>
+                        </li>
+                        <li>
+                            <span class="check">✓</span>
+                            <span class="text"><strong>ВІЛ та інфекції</strong> — розробляються методи видалення вірусної ДНК з геному</span>
+                        </li>
+                        <li>
+                            <span class="check">✓</span>
+                            <span class="text"><strong>Персоналізована медицина</strong> — індивідуальне лікування на основі генетичного профілю</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="challenges-box">
+                        <h3>⚠ Виклики</h3>
+                        <ul>
+                            <li>Висока вартість лікування (до $2–3 млн за курс)</li>
+                            <li>Ризик імунної відповіді та побічних ефектів</li>
+                            <li>Етичні дилеми редагування зародкових клітин</li>
+                            <li>Потреба у довгострокових дослідженнях безпеки</li>
+                            <li>Нерівний доступ між країнами світу</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="conclusion-box">
+                    <p><strong>Висновок:</strong> Генотерапія — один із найперспективніших напрямів сучасної медицини, який дає надію на повне вилікування тисяч спадкових захворювань. Попри виклики, стрімкий розвиток технологій, зокрема CRISPR, наближає ерупереходу від лікування симптомів до усунення генетичних причин хвороб.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="slide-counter"><span id="current">1</span> / <span id="total">5</span></div>
+    <div class="nav">
+        <button onclick="changeSlide(-1)" title="Попередній">←</button>
+        <button onclick="changeSlide(1)" title="Наступний">→</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 5;
+
+        function changeSlide(direction) {
+            const newSlide = currentSlide + direction;
+            if (newSlide < 1 || newSlide > totalSlides) return;
+
+            const current = document.querySelector('.slide.active');
+            const next = document.querySelector(`[data-slide="${newSlide}"]`);
+
+            if (direction > 0) {
+                current.classList.remove('active');
+                current.classList.add('exit');
+                setTimeout(() => current.classList.remove('exit'), 600);
+            } else {
+                current.classList.remove('active');
+                current.style.transform = 'translateX(60px)';
+                current.style.opacity = '0';
+                setTimeout(() => {
+                    current.style.transform = '';
+                    current.style.opacity = '';
+                }, 600);
+            }
+
+            next.classList.add('active');
+            currentSlide = newSlide;
+
+            document.getElementById('current').textContent = currentSlide;
+            document.getElementById('progress').style.width = ((currentSlide / totalSlides) * 100) + '%';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        // Touch support
+        let touchStartX = 0;
+        document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+        document.addEventListener('touchend', e => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
+        });
+
+        // Initial progress
+        document.getElementById('progress').style.width = '20%';
+    </script>
+</body>
+</html>
